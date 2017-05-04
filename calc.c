@@ -5,8 +5,8 @@ int main(){
 	FILE *fp = NULL;
 	int operand1, operand2;
 	char operator = ' ';
-	double result;
 	int line = 0;
+	double (*calculator)(int, int);
 
 	fp = fopen("read.txt","r");
 	if(fp!=NULL){
@@ -16,22 +16,22 @@ int main(){
 			if((fscanf(fp, "%d %c %d",&operand1, &operator, &operand2)) == EOF) break;
 			switch(operator) {
 				case '+':
-				result = add(operand1, operand2);
+				calculator = add;
 				break;
 				case '-':
-				result = minus(operand1, operand2);
+				calculator = minus;
 				break;
 				case '*':
-				result = mul(operand1, operand2);
+				calculator = mul;
 				break;
 				case '/':
-				result = div(operand1, operand2);
+				calculator = div;
 				break;
 			}		
+			
 			printf("%d %c %d = %lf\n",
-				 operand1, operator, operand2, result);
+				 operand1, operator, operand2, calculator(operand1, operand2));
 		}
 	}
 	return 0;
 }
-
